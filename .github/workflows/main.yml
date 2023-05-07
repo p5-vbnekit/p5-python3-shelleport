@@ -1,0 +1,20 @@
+on: push
+
+permissions: { contents: read }
+
+jobs:
+  flake8:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v3
+    - name: Installing dependencies
+      run: |
+        # installing dependencies
+        python -m pip install --upgrade pip
+        pip install --upgrade flake8
+    - uses: actions/checkout@v3
+      with: { path: snapshot }
+    - name: Executing `flake8`
+      run: |
+        # executing `flake8`
+        flake8 --statistics --show-source --max-line-length=128 --extend-ignore=E251,E701 -- snapshot
